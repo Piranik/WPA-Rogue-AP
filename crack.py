@@ -45,6 +45,8 @@ def crackProcess(Ssid, Passphrase, ClientMac, APMac, ANonce, SNonce, Mic, Data):
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	
+	parser = argparse.ArgumentParser(description='Return 1 if the password is correct or 0 instead')
+
 	parser.add_argument("ssid", help="Name of access point")
 	parser.add_argument("password", help="WPA Password")
 	parser.add_argument("cmac", help="Client MAC with no \":\"")
