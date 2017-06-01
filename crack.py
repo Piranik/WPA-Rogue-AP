@@ -1,3 +1,4 @@
+import argparse
 import hmac
 from hashlib import sha1
 from binascii import a2b_hex
@@ -41,19 +42,37 @@ def crackProcess(Ssid, Passphrase, ClientMac, APMac, ANonce, SNonce, Mic, Data):
 	return 0 #Wrong password
 
 		
-		
-ssid = "AP1"
-password = "XXXXXXXXXXXXX"
-clientMac = "2aa43c4d3ebc"
-APMac = "705a0f6d8b4c"
-ANounce = "7ef9d833dc23a767388bf7ff066d1c80beb04712da4d03a9de080a9d2c0c140a"
-SNounce = "93cbdcaa444a259538dba15e5e24a3dda1bf1829468e754fe9171e970dcf6483"
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser()
+	
+	parser.add_argument("ssid", help="Name of access point")
+	parser.add_argument("password", help="WPA Password")
+	parser.add_argument("cmac", help="Client MAC with no \":\"")
+	parser.add_argument("amac", help="Acess point MAC with no \":\"")
+	parser.add_argument("anonce", help="ANonce hex stream")
+	parser.add_argument("snonce", help="SNonce hex stream")
+	parser.add_argument("mic", help="Data checksum value")
+	parser.add_argument("data", help="Whole 802.1X Authentication hex stream")
+	
+	args = parser.parse_args()
+
+	print crackProcess(	args.ssid, 
+						args.password, 
+						args.cmac, 
+						args.amac, 
+						args.anonce, 
+						args.snonce, 
+						args.mic, 
+						args.data)
+	
+	#ssid = "AP1"
+	#password = "XXXXXXXXXXXXX"
+	#clientMac = "2aa43c4d3ebc"
+	#APMac = "705a0f6d8b4c"
+	#ANounce = "7ef9d833dc23a767388bf7ff066d1c80beb04712da4d03a9de080a9d2c0c140a"
+	#SNounce = "93cbdcaa444a259538dba15e5e24a3dda1bf1829468e754fe9171e970dcf6483"
 
 
-#data = whole 802.1X Autehntication part of EAPOL packet
-mic = "1efa13db259e15dc428edc391efd74e5"
-data = "020300c70213ca0010000000000000001b7ef9d833dc23a767388bf7ff066d1c80beb04712da4d03a9de080a9d2c0c140a00000000000000000000000000000000840f52000000000000000000000000001efa13db259e15dc428edc391efd74e50068d5c26dbc650cf3c31466a235329e123377ab2546d4d988649bdaf4535539d505f52ff8e0059acd65f511c23b58aa5a8a4b52891b1a120faaaf071f37cfbe2f81b098cf225868d3ab439fd38a948cb7bf1ca8c55eaed1d0700ddcc19ad7cde2a45842b3b8ff9ad427"
-
-
-
-print crackProcess(ssid, password, clientMac, APMac, ANounce, SNounce, mic, data)
+	#data = whole 802.1X Autehntication part of EAPOL packet
+	#mic = "1efa13db259e15dc428edc391efd74e5"
+	#data = "020300c70213ca0010000000000000001b7ef9d833dc23a767388bf7ff066d1c80beb04712da4d03a9de080a9d2c0c140a00000000000000000000000000000000840f52000000000000000000000000001efa13db259e15dc428edc391efd74e50068d5c26dbc650cf3c31466a235329e123377ab2546d4d988649bdaf4535539d505f52ff8e0059acd65f511c23b58aa5a8a4b52891b1a120faaaf071f37cfbe2f81b098cf225868d3ab439fd38a948cb7bf1ca8c55eaed1d0700ddcc19ad7cde2a45842b3b8ff9ad427"
